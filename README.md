@@ -10,16 +10,17 @@ Application web de Planning Poker pour estimer les tâches JIRA en équipe, avec
 
 1. [Fonctionnalités](#fonctionnalités)
 2. [Architecture](#architecture)
-3. [Installation](#installation)
-4. [Configuration](#configuration)
-5. [Lancement](#lancement)
-6. [Structure du projet](#structure-du-projet)
-7. [Base de données](#base-de-données)
-8. [API REST](#api-rest)
-9. [WebSocket Events](#websocket-events)
-10. [Intégration JIRA](#intégration-jira)
-11. [Composants React](#composants-react)
-12. [Flux utilisateur](#flux-utilisateur)
+3. [Sécurité](#sécurité)
+4. [Installation](#installation)
+5. [Configuration](#configuration)
+6. [Lancement](#lancement)
+7. [Structure du projet](#structure-du-projet)
+8. [Base de données](#base-de-données)
+9. [API REST](#api-rest)
+10. [WebSocket Events](#websocket-events)
+11. [Intégration JIRA](#intégration-jira)
+12. [Composants React](#composants-react)
+13. [Flux utilisateur](#flux-utilisateur)
 
 ---
 
@@ -82,6 +83,54 @@ Application web de Planning Poker pour estimer les tâches JIRA en équipe, avec
 | Temps réel | Socket.io 4 |
 | Base de données | PostgreSQL 15 |
 | Containerisation | Docker Compose |
+
+---
+
+## Sécurité
+
+### Mesures implémentées
+
+| Mesure | Description |
+|--------|-------------|
+| **Helmet** | Headers HTTP de sécurité (XSS, clickjacking, sniffing) |
+| **Rate Limiting** | 100 requêtes max par IP / 15 minutes |
+| **Données sensibles** | Tokens JIRA jamais envoyés au client |
+| **CORS** | Origine contrôlée via configuration |
+
+### Headers de sécurité (Helmet)
+
+```
+X-Content-Type-Options: nosniff
+X-Frame-Options: SAMEORIGIN
+X-XSS-Protection: 1; mode=block
+Strict-Transport-Security: max-age=15552000
+Content-Security-Policy: default-src 'self'
+```
+
+### Rate Limiting
+
+```typescript
+// Configuration actuelle
+{
+  windowMs: 15 * 60 * 1000,  // 15 minutes
+  max: 100,                   // 100 requêtes par fenêtre
+  message: { error: 'Too many requests, please try again later' }
+}
+```
+
+### Protection des données
+
+- `jiraApiToken` et `jiraEmail` ne sont **jamais** envoyés aux clients
+- Type `RoomPublic` utilisé pour toutes les réponses API et WebSocket
+- Credentials JIRA stockés côté serveur uniquement
+
+### Améliorations futures recommandées
+
+- [ ] Authentification JWT
+- [ ] Chiffrement des tokens JIRA en base de données
+- [ ] Validation des entrées avec Zod
+- [ ] Vérification du participantId côté serveur
+- [ ] HTTPS obligatoire en production
 
 ---
 
