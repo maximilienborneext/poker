@@ -11,6 +11,14 @@ export interface Room {
   updatedAt: Date;
 }
 
+// Room type for client responses (excludes sensitive fields)
+export type RoomPublic = Omit<Room, 'jiraApiToken' | 'jiraEmail'>;
+
+export function toPublicRoom(room: Room): RoomPublic {
+  const { jiraApiToken, jiraEmail, ...publicRoom } = room;
+  return publicRoom;
+}
+
 export interface Participant {
   id: string;
   roomId: string;

@@ -3,6 +3,7 @@ import { roomService } from '../services/roomService.js';
 import { voteService } from '../services/voteService.js';
 import { jiraService } from '../services/jiraService.js';
 import { config } from '../config/env.js';
+import { toPublicRoom } from '../types/index.js';
 
 export function setupSocketHandlers(io: Server): void {
   io.on('connection', (socket: Socket) => {
@@ -55,7 +56,7 @@ export function setupSocketHandlers(io: Server): void {
         }
 
         socket.emit('room:joined', {
-          room,
+          room: toPublicRoom(room),
           participants: participantsWithVotes,
           currentSession: session,
         });

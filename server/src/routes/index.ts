@@ -2,6 +2,7 @@ import { Router, Request, Response } from 'express';
 import { roomService } from '../services/roomService.js';
 import { jiraService } from '../services/jiraService.js';
 import { config } from '../config/env.js';
+import { toPublicRoom } from '../types/index.js';
 
 const router = Router();
 
@@ -28,7 +29,7 @@ router.post('/rooms', async (req: Request, res: Response) => {
     const session = await roomService.createSession(room.id);
 
     res.status(201).json({
-      room,
+      room: toPublicRoom(room),
       participant,
       session,
     });
@@ -52,7 +53,7 @@ router.get('/rooms/:code', async (req: Request, res: Response) => {
     const participants = await roomService.getParticipants(room.id);
     const session = await roomService.getCurrentSession(room.id);
 
-    res.json({ room, participants, session });
+    res.json({ room: toPublicRoom(room), participants, session });
   } catch (error) {
     console.error('Error getting room:', error);
     res.status(500).json({ error: 'Failed to get room' });
@@ -79,7 +80,7 @@ router.post('/rooms/:code/join', async (req: Request, res: Response) => {
     const participant = await roomService.joinRoom(room.id, name, false);
     const session = await roomService.getCurrentSession(room.id);
 
-    res.json({ room, participant, session });
+    res.json({ room: toPublicRoom(room), participant, session });
   } catch (error) {
     console.error('Error joining room:', error);
     res.status(500).json({ error: 'Failed to join room' });
