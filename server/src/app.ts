@@ -47,14 +47,18 @@ setupSocketHandlers(io);
 
 // Start server
 httpServer.listen(config.port, () => {
+  const serverPort = String(config.port).padEnd(4);
+  const clientPort = String(config.clientPort).padEnd(4);
+  const dbPorts = `${config.dbPortExternal} (ext) : ${config.dbPortInternal} (int)`;
+
   console.log('\n╔═══════════════════════════════════════════════════╗');
   console.log('║         Pointing Poker - France TV                ║');
   console.log('╠═══════════════════════════════════════════════════╣');
   console.log('║  Service          │  Port                         ║');
   console.log('╠───────────────────┼───────────────────────────────╣');
-  console.log(`║  Serveur API      │  ${config.port}                          ║`);
-  console.log('║  Client (Vite)    │  5173                         ║');
-  console.log('║  PostgreSQL       │  5435 (ext) : 5432 (int)      ║');
+  console.log(`║  Serveur API      │  ${serverPort}                         ║`);
+  console.log(`║  Client (Vite)    │  ${clientPort}                         ║`);
+  console.log(`║  PostgreSQL       │  ${dbPorts.padEnd(25)}║`);
   console.log('╚═══════════════════════════════════════════════════╝');
   console.log(`\nEnvironment: ${config.nodeEnv}`);
 });
