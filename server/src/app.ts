@@ -47,6 +47,14 @@ setupSocketHandlers(io);
 
 // Start server
 httpServer.listen(config.port, () => {
-  console.log(`Server running on http://localhost:${config.port}`);
-  console.log(`Environment: ${config.nodeEnv}`);
+  console.log('\n╔═══════════════════════════════════════════════════╗');
+  console.log('║         Pointing Poker - France TV                ║');
+  console.log('╠═══════════════════════════════════════════════════╣');
+  console.log('║  Service          │  Port                         ║');
+  console.log('╠───────────────────┼───────────────────────────────╣');
+  console.log(`║  Serveur API      │  ${config.port}                          ║`);
+  console.log('║  Client (Vite)    │  5173                         ║');
+  console.log('║  PostgreSQL       │  5433 (ext) : 5432 (int)      ║');
+  console.log('╚═══════════════════════════════════════════════════╝');
+  console.log(`\nEnvironment: ${config.nodeEnv}`);
 });
