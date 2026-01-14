@@ -54,7 +54,7 @@ httpServer.listen(config.port, () => {
   console.log('╠───────────────────┼───────────────────────────────╣');
   console.log(`║  Serveur API      │  ${config.port}                          ║`);
   console.log('║  Client (Vite)    │  5173                         ║');
-  console.log('║  PostgreSQL       │  5433 (ext) : 5432 (int)      ║');
+  console.log('║  PostgreSQL       │  5435 (ext) : 5432 (int)      ║');
   console.log('╚═══════════════════════════════════════════════════╝');
   console.log(`\nEnvironment: ${config.nodeEnv}`);
 });

@@ -61,7 +61,7 @@ Application web de Planning Poker pour estimer les tâches JIRA en équipe, avec
 │  React Client   │◄───────►│  Express Server │◄───────►│   PostgreSQL    │
 │  (Vite + TS)    │         │  (Node.js + TS) │         │                 │
 │                 │  WS     │                 │         │                 │
-│  Port 5173      │◄═══════►│  Port 3001      │         │  Port 5433      │
+│  Port 5173      │◄═══════►│  Port 3001      │         │  Port 5435      │
 └─────────────────┘         └────────┬────────┘         └─────────────────┘
                                      │
                                      │ HTTPS
@@ -180,7 +180,7 @@ npm run db:migrate
 
 ```env
 # Base de données
-DATABASE_URL=postgresql://postgres:postgres@localhost:5433/pointing_poker
+DATABASE_URL=postgresql://postgres:postgres@localhost:5435/pointing_poker
 
 # Serveur
 PORT=3001
